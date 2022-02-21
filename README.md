@@ -1,5 +1,10 @@
 # REST API Example
 
+TODO LIST
+
+- host apis on cloud
+- add problem api
+
 This example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It is based on a SQLite database, you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).
 
 ## Getting started
@@ -46,7 +51,6 @@ npx prisma migrate dev --name init
 
 When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
 
-
 ### 3. Start the REST API server
 
 ```
@@ -70,6 +74,7 @@ You can access the REST API of the server using the following endpoints:
     - `orderBy` (optional): The sort order for posts in either ascending or descending order. The value can either `asc` or `desc`
 - `/user/:id/drafts`: Fetch user's drafts by their `id`
 - `/users`: Fetch all users
+
 ### `POST`
 
 - `/post`: Create a new post
@@ -91,7 +96,6 @@ You can access the REST API of the server using the following endpoints:
 ### `DELETE`
 
 - `/post/:id`: Delete a post by its `id`
-
 
 ## Evolving the app
 
@@ -154,23 +158,23 @@ You can now use your `PrismaClient` instance to perform operations against the n
 Update your `index.ts` file by adding a new endpoint to your API:
 
 ```ts
-app.post('/user/:id/profile', async (req, res) => {
-  const { id } = req.params
-  const { bio } = req.body
+app.post("/user/:id/profile", async (req, res) => {
+  const { id } = req.params;
+  const { bio } = req.body;
 
   const profile = await prisma.profile.create({
     data: {
       bio,
       user: {
         connect: {
-          id: Number(id)
-        }
-      }
-    }
-  })
+          id: Number(id),
+        },
+      },
+    },
+  });
 
-  res.json(profile)
-})
+  res.json(profile);
+});
 ```
 
 #### 2.2 Testing out your new endpoint
@@ -183,7 +187,6 @@ Restart your application server and test out your new endpoint.
   - Body:
     - `bio: String` : The bio of the user
 
-
 <details><summary>Expand to view more sample Prisma Client queries on <code>Profile</code></summary>
 
 Here are some more sample Prisma Client queries on the new <code>Profile</code> model:
@@ -193,12 +196,12 @@ Here are some more sample Prisma Client queries on the new <code>Profile</code> 
 ```ts
 const profile = await prisma.profile.create({
   data: {
-    bio: 'Hello World',
+    bio: "Hello World",
     user: {
-      connect: { email: 'alice@prisma.io' },
+      connect: { email: "alice@prisma.io" },
     },
   },
-})
+});
 ```
 
 ##### Create a new user with a new profile
@@ -206,37 +209,37 @@ const profile = await prisma.profile.create({
 ```ts
 const user = await prisma.user.create({
   data: {
-    email: 'john@prisma.io',
-    name: 'John',
+    email: "john@prisma.io",
+    name: "John",
     profile: {
       create: {
-        bio: 'Hello World',
+        bio: "Hello World",
       },
     },
   },
-})
+});
 ```
 
 ##### Update the profile of an existing user
 
 ```ts
 const userWithUpdatedProfile = await prisma.user.update({
-  where: { email: 'alice@prisma.io' },
+  where: { email: "alice@prisma.io" },
   data: {
     profile: {
       update: {
-        bio: 'Hello Friends',
+        bio: "Hello Friends",
       },
     },
   },
-})
+});
 ```
 
 </details>
 
 ## Switch to another database (e.g. PostgreSQL, MySQL, SQL Server, MongoDB)
 
-If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block. 
+If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block.
 
 Learn more about the different connection configurations in the [docs](https://www.prisma.io/docs/reference/database-reference/connection-urls).
 
@@ -303,6 +306,7 @@ datasource db {
   url      = "mongodb://USERNAME:PASSWORD@HOST/DATABASE?authSource=admin&retryWrites=true&w=majority"
 }
 ```
+
 Because MongoDB is currently in [Preview](https://www.prisma.io/docs/about/releases#preview), you need to specify the `previewFeatures` on your `generator` block:
 
 ```
@@ -311,6 +315,7 @@ generator client {
   previewFeatures = ["mongodb"]
 }
 ```
+
 </details>
 
 ## Next steps
