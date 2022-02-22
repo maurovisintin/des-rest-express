@@ -6,6 +6,11 @@ TODO LIST
 - update db to host img base64 instead of url
 - update add problem api so the FE can send the base64
 
+TO RUN
+
+- pscale connect mycrags dev --port 3309
+- npm run dev
+
 This example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It is based on a SQLite database, you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).
 
 ## Getting started
