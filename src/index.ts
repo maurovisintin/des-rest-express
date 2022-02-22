@@ -1,160 +1,17 @@
 import express from 'express'
 
-import { prisma } from '../utils/prisma'
-
 const app = express()
+
+import problems from './api/problems'
 
 app.use(express.json())
 
-// .mutation("add-problem", {
-//   input: z.object({
-//     name: z.string(),
-//     imageUrl: z.string(),
-//     description: z.string(),
-//     grade: z.number(),
-//   }),
-//   async resolve({ input }) {
-//     const voteInDb = await prisma.problem.create({
-//       data: {
-//         name: input.name,
-//         imageUrl: input.imageUrl,
-//         description: input.description,
-//         grade: input.grade
-//       }
-//     });
-//     return { success: true, vote: voteInDb };
-//   },
-// });
+app.use('/api/problems', problems)
 
-// app.post(`/signup`, async (req, res) => {
-//   const { name, email, posts } = req.body
+const PORT = process.env.PORT || 3000;
 
-//   const postData = posts?.map((post: Prisma.PostCreateInput) => {
-//     return { title: post?.title, content: post?.content }
-//   })
-
-//   const result = await prisma.user.create({
-//     data: {
-//       name,
-//       email,
-//       posts: {
-//         create: postData,
-//       },
-//     },
-//   })
-//   res.json(result)
-// })
-
-// app.post(`/post`, async (req, res) => {
-//   const { title, content, authorEmail } = req.body
-//   const result = await prisma.post.create({
-//     data: {
-//       title,
-//       content,
-//       author: { connect: { email: authorEmail } },
-//     },
-//   })
-//   res.json(result)
-// })
-
-// app.put('/post/:id/views', async (req, res) => {
-//   const { id } = req.params
-
-//   try {
-//     const post = await prisma.post.update({
-//       where: { id: Number(id) },
-//       data: {
-//         viewCount: {
-//           increment: 1,
-//         },
-//       },
-//     })
-
-//     res.json(post)
-//   } catch (error) {
-//     res.json({ error: `Post with ID ${id} does not exist in the database` })
-//   }
-// })
-
-// app.put('/publish/:id', async (req, res) => {
-//   const { id } = req.params
-
-//   try {
-//     const postData = await prisma.post.findUnique({
-//       where: { id: Number(id) },
-//       select: {
-//         published: true,
-//       },
-//     })
-
-//     const updatedPost = await prisma.post.update({
-//       where: { id: Number(id) || undefined },
-//       data: { published: !postData?.published },
-//     })
-//     res.json(updatedPost)
-//   } catch (error) {
-//     res.json({ error: `Post with ID ${id} does not exist in the database` })
-//   }
-// })
-
-// app.delete(`/post/:id`, async (req, res) => {
-//   const { id } = req.params
-//   const post = await prisma.post.delete({
-//     where: {
-//       id: Number(id),
-//     },
-//   })
-//   res.json(post)
-// })
-
-// app.get('/users', async (req, res) => {
-//   const users = await prisma.user.findMany()
-//   res.json(users)
-// })
-
-// app.get('/user/:id/drafts', async (req, res) => {
-//   const { id } = req.params
-
-//   const drafts = await prisma.user
-//     .findUnique({
-//       where: {
-//         id: Number(id),
-//       },
-//     })
-//     .posts({
-//       where: { published: false },
-//     })
-
-//   res.json(drafts)
-// })
-
-// app.get(`/post/:id`, async (req, res) => {
-//   const { id }: { id?: string } = req.params
-
-//   const post = await prisma.post.findUnique({
-//     where: { id: Number(id) },
-//   })
-//   res.json(post)
-// })
-
-app.get('/problems', async (req, res) => {
-  // const { searchString, skip, take, orderBy } = req.query
-
-  // const or: Prisma.PostWhereInput = searchString
-  //   ? {
-  //       OR: [
-  //         { title: { contains: searchString as string } },
-  //         { content: { contains: searchString as string } },
-  //       ],
-  //     }
-  //   : {}
-
-  const posts = await prisma.problem.findMany()
-  res.json(posts)
-})
-
-const server = app.listen(3000, () =>
+const server = app.listen(PORT, () =>
   console.log(`
-🚀 Server ready at: http://localhost:3000
+🚀 Server ready at: PORT: ${PORT}
 ⭐️ See sample requests: http://pris.ly/e/ts/rest-express#3-using-the-rest-api`),
 )
