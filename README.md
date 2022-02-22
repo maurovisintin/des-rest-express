@@ -6,10 +6,17 @@ TODO LIST
 - update db to host img base64 instead of url
 - update add problem api so the FE can send the base64
 
-TO RUN
+TO RUN LOCALLY
 
 - pscale connect mycrags dev --port 3309
 - npm run dev
+
+TO DEPLOY
+
+just commit on git
+`git add .`
+`git commit -am "some comment`
+`git push heroku main` <== this pushes to heroku and deploys it with CD
 
 This example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/) and [Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client). It is based on a SQLite database, you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).
 
